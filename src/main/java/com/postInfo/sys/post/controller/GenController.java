@@ -4,6 +4,7 @@ import com.postInfo.sys.post.model.Post;
 import com.postInfo.sys.post.service.post.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,13 +19,16 @@ public class GenController {
     private PostService postService;
 
     @GetMapping("/allPosts")
+    @PreAuthorize("hasRole('USER')")
+
     public List<Post> allPosts() {
         return postService.findAllPosts();
     }
 
 
-    @DeleteMapping("/allPosts/{id}")
-    public void deletePost(@PathVariable("id") String id) {
-        postService.delete(postService.findBy_id(id));
-    }
+//    @DeleteMapping("/allPosts/{id}")
+//    public void deletePost(@PathVariable("id") String id) {
+////        postService.delete(postService.findBy_id(id));
+//        postService.delete(postService.findPostById(id));
+//    }
 }

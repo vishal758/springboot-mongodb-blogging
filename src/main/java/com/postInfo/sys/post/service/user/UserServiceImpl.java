@@ -1,6 +1,7 @@
 package com.postInfo.sys.post.service.user;
 
 //import com.postInfo.sys.post.model.Post;
+import com.postInfo.sys.post.model.Role;
 import com.postInfo.sys.post.model.User;
 import com.postInfo.sys.post.repository.UserRepository;
 //import org.bson.types.String;
@@ -31,5 +32,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(User by_id) {
         userRepository.delete(by_id);
+    }
+
+    @Override
+    public List<User> findUserByRoles(Role user) {
+        return userRepository.findUserByRoles(user);
     }
 }

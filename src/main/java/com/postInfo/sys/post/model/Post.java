@@ -13,7 +13,7 @@ import java.util.Date;
 @Document(collection = "post")
 public class Post {
     @Id
-    private String _id;
+    private String id;
     private String title;
     private String desc;
     private String author;
@@ -22,8 +22,8 @@ public class Post {
     private Date lastModifiedDate;
     private String userId;
 
-    public Post(String _id, String title, String desc, String userId, String author, Date lastModifiedDate) {
-        this._id = _id;
+    public Post(String id, String title, String desc, String userId, String author, Date lastModifiedDate) {
+        this.id = id;
         this.title = title;
         this.desc = desc;
         this.userId = userId;
@@ -31,12 +31,12 @@ public class Post {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public String get_id() {
-        return _id;
+    public String getId() {
+        return id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getAuthor() {
@@ -82,7 +82,7 @@ public class Post {
     @Override
     public String toString() {
         return "Post{" +
-                "_id='" + _id + '\'' +
+                "id='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", desc='" + desc + '\'' +
                 ", userId='" + userId + '\'' +

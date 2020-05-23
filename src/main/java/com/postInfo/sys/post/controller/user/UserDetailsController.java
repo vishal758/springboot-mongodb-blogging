@@ -1,9 +1,13 @@
-package com.postInfo.sys.post.controller;
+package com.postInfo.sys.post.controller.user;
 
 import com.postInfo.sys.post.data.UserData;
 import com.postInfo.sys.post.data.response.MessageResponse;
+import com.postInfo.sys.post.model.ERole;
+import com.postInfo.sys.post.model.Role;
 import com.postInfo.sys.post.model.User;
 //import com.postInfo.sys.post.service.user.CustomUserDetailsService;
+import com.postInfo.sys.post.repository.RoleRepository;
+import com.postInfo.sys.post.service.role.RoleService;
 import com.postInfo.sys.post.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +21,23 @@ import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/userDetails")
+@RequestMapping("/users")
 public class UserDetailsController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final RoleService roleService;
 
-    @GetMapping("")
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<UserData> findAll() {
-        List<User> user = userService.findAll();
+    @Autowired
+    public UserDetailsController(UserService userService, RoleService roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public List<UserData> getAllUsers() {
+        Role userRole = roleService.findByName(ERole.ROLE_USER);
+        List<User> user = userService.findUserByRoles(userRole);
         List<UserData> users = new ArrayList<>();
         for(final User singleUser: user) {
             UserData userData = new UserData();
@@ -40,14 +51,14 @@ public class UserDetailsController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ADMIN')")
-    public UserData getUserById(@PathVariable("id") String id) {
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public UserData getParticularUsers(@PathVariable String id) {
         User user = userService.findUserById(id);
         UserData userData = new UserData();
-        userData.setId(user.getId());
-        userData.setUsername(user.getUsername());
-        userData.setEmail(user.getEmail());
-        userData.setRole(user.getRoles());
+            userData.setId(user.getId());
+            userData.setUsername(user.getUsername());
+            userData.setEmail(user.getEmail());
+            userData.setRole(user.getRoles());
         return userData;
     }
 
@@ -65,12 +76,5 @@ public class UserDetailsController {
 //        userService.save(user);
 //    }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deleteUser(@PathVariable String id) {
-        User user = userService.findUserById(id);
-        userService.delete(user);
-        return ResponseEntity
-                .ok(new MessageResponse("User with resourceId: " + id + " and userName: " + user.getUsername() + " deleted successfully"));
-    }
+
 }

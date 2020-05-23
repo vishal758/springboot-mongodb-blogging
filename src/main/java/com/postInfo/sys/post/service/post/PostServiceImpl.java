@@ -19,6 +19,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> findAllByUser(String userId) {
         List<Post> posts = new ArrayList<>();
+//        postRepository.findByUserId(userId).forEach(posts::add);
         postRepository.findByUserIdOrderByLastModifiedDateDesc(userId).forEach(posts::add);
         return posts;
     }
@@ -27,6 +28,7 @@ public class PostServiceImpl implements PostService {
     public List<Post> findAllPosts() {
         List<Post> posts = new ArrayList<>();
         postRepository.findAllByOrderByLastModifiedDateDesc().forEach(posts::add);
+//        postRepository.findAll().forEach(posts::add);
         return posts;
     }
 
@@ -35,9 +37,13 @@ public class PostServiceImpl implements PostService {
         return postRepository.save(post);
     }
 
+//    @Override
+//    public Post findBy_id(String id) {
+//        return postRepository.findPostById(id);
+//    }
     @Override
-    public Post findBy_id(String id) {
-        return postRepository.findBy_id(id);
+    public Post findPostById(String id) {
+        return postRepository.findPostById(id);
     }
 
     @Override

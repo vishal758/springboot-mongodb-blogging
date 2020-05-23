@@ -11,10 +11,11 @@ import java.util.List;
 @Repository
 public interface PostRepository extends MongoRepository<Post, String> {
 
-    Post findBy_id(String id);
+//    Post findBy_id(String id);
+    Post findPostById(String id);
     List<Post> findByUserId(String userId);
 
     List<Post> findAllByOrderByLastModifiedDateDesc();
-
+    List<Post> findAll();
     List<Post> findByUserIdOrderByLastModifiedDateDesc(String userId);
 }

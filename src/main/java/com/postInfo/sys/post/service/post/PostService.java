@@ -13,7 +13,8 @@ public interface PostService {
     List<Post> findAllPosts();
     Post save(Post post);
 
-    Post findBy_id(String id);
+//    Post findBy_id(String id);
+    Post findPostById(String id);
 
     void delete(Post by_id);
 }

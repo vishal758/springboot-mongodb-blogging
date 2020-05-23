@@ -1,4 +1,4 @@
-package com.postInfo.sys.post.controller;
+package com.postInfo.sys.post.controller.auth;
 
 import com.postInfo.sys.post.model.ERole;
 import com.postInfo.sys.post.model.Role;
@@ -31,20 +31,20 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-    @Autowired
     AuthenticationManager authenticationManager;
-
-    @Autowired
     UserRepository userRepository;
-
-    @Autowired
     RoleRepository roleRepository;
-
-    @Autowired
     PasswordEncoder encoder;
+    JwtUtils jwtUtils;
 
     @Autowired
-    JwtUtils jwtUtils;
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder encoder, JwtUtils jwtUtils) {
+        this.authenticationManager = authenticationManager;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.encoder = encoder;
+        this.jwtUtils = jwtUtils;
+    }
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
