@@ -1,8 +1,11 @@
 package com.postInfo.sys.post.controller.admin;
 
 import com.postInfo.sys.post.data.UserData;
-import com.postInfo.sys.post.data.response.MessageResponse;
+import com.postInfo.sys.post.data.response.SuccessResponse;
+import com.postInfo.sys.post.model.ERole;
+import com.postInfo.sys.post.model.Role;
 import com.postInfo.sys.post.model.User;
+import com.postInfo.sys.post.service.role.RoleService;
 import com.postInfo.sys.post.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +20,13 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final UserService userService;
+    private UserService userService;
+    private RoleService roleService;
 
     @Autowired
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping("")
@@ -29,6 +34,31 @@ public class AdminController {
     public List<UserData> findAll() {
         List<User> user = userService.findAll();
         List<UserData> users = new ArrayList<>();
+        for(final User singleUser: user) {
+            UserData userData = new UserData();
+            userData.setId(singleUser.getId());
+            userData.setUsername(singleUser.getUsername());
+            userData.setEmail(singleUser.getEmail());
+            userData.setRole(singleUser.getRoles());
+            users.add(userData);
+        }
+        return users;
+    }
+
+    @RequestMapping(value = "/role/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<UserData> findUserByRole(@PathVariable String id) {
+        Role role = null;
+        if(id.compareTo("user") == 0)
+            role = roleService.findByName(ERole.ROLE_USER);
+        else if (id.compareTo("admin") == 0)
+            role = roleService.findByName(ERole.ROLE_ADMIN);
+        else
+            throw new RuntimeException("Error: Role is not found");
+
+        List<User> user = userService.findUserByRoles(role);
+        List<UserData> users = new ArrayList<>();
+
         for(final User singleUser: user) {
             UserData userData = new UserData();
             userData.setId(singleUser.getId());
@@ -58,7 +88,7 @@ public class AdminController {
         User user = userService.findUserById(id);
         userService.delete(user);
         return ResponseEntity
-                .ok(new MessageResponse("User with resourceId: " + id + " and userName: " + user.getUsername() + " deleted successfully"));
+                .ok(new SuccessResponse(id, user.getUsername() + " deleted Successfully"));
     }
 
 }

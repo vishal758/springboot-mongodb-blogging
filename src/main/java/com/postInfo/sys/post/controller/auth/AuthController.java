@@ -1,5 +1,6 @@
 package com.postInfo.sys.post.controller.auth;
 
+import com.postInfo.sys.post.data.response.SuccessResponse;
 import com.postInfo.sys.post.model.ERole;
 import com.postInfo.sys.post.model.Role;
 import com.postInfo.sys.post.model.User;
@@ -127,6 +128,6 @@ public class AuthController {
         user.setRoles(roles);
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(new SuccessResponse(user.getId(), "User registered successfully!"));
     }
 }

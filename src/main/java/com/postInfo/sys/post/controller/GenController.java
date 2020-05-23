@@ -3,11 +3,8 @@ package com.postInfo.sys.post.controller;
 import com.postInfo.sys.post.model.Post;
 import com.postInfo.sys.post.service.post.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -15,12 +12,15 @@ import java.util.List;
 @RestController
 public class GenController {
 
+    private  PostService postService;
+
     @Autowired
-    private PostService postService;
+    public GenController(PostService postService) {
+        this.postService = postService;
+    }
 
     @GetMapping("/allPosts")
     @PreAuthorize("hasRole('USER')")
-
     public List<Post> allPosts() {
         return postService.findAllPosts();
     }

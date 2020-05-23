@@ -1,4 +1,5 @@
 package com.postInfo.sys.post.controller.post;
+import com.postInfo.sys.post.data.response.SuccessResponse;
 import com.postInfo.sys.post.model.Post;
 import com.postInfo.sys.post.model.User;
 import com.postInfo.sys.post.service.post.PostService;
@@ -38,31 +39,36 @@ public class PostController {
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public Post createPost(@Valid @RequestBody Post post, @PathVariable String userId) {
+    public SuccessResponse createPost(@Valid @RequestBody Post post, @PathVariable String userId) {
         User user = userService.findUserById(userId);
         post.setId(post.getId());
         post.setUserId(userId);
         post.setAuthor(user.getUsername());
         post.setLastModifiedDate(Calendar.getInstance().getTime());
         postService.save(post);
-        return post;
+        return new SuccessResponse(post.getId(), "Post created Successfully");
     }
 
-//    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-//    public void modifyPostById(@PathVariable("id") String id, @Valid @RequestBody Post post, @PathVariable String userId) {
-//        User user = userService.findBy_id(userId);
-//        post.set_id(id);
-//        post.setUserId(userId);
-//        post.setAuthor(user.getUserName());
-//        post.setLastModifiedDate(Calendar.getInstance().getTime());
-//        postService.save(post);
-//    }
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public SuccessResponse modifyPostById(@PathVariable("id") String id, @Valid @RequestBody Post post, @PathVariable String userId) {
+        User user = userService.findUserById(userId);
+        if(user == null)
+            throw new RuntimeException("Error: User not found");
+        post.setId(id);
+        post.setUserId(userId);
+        post.setAuthor(user.getUsername());
+        post.setLastModifiedDate(Calendar.getInstance().getTime());
+        postService.save(post);
+
+        return new SuccessResponse(post.getId(), "Post modified Successfully");
+    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public void deletePost(@PathVariable String id, @PathVariable String userId) {
-//        postService.delete(postService.findBy_id(id));
-        postService.delete(postService.findPostById(id));
+    public SuccessResponse deletePost(@PathVariable String id) {
+        Post post = postService.findPostById(id);
+        postService.delete(post);
+        return new SuccessResponse(post.getId(), "Post deleted Successfully");
     }
 }
 

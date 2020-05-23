@@ -1,21 +1,15 @@
 package com.postInfo.sys.post.controller.user;
 
 import com.postInfo.sys.post.data.UserData;
-import com.postInfo.sys.post.data.response.MessageResponse;
 import com.postInfo.sys.post.model.ERole;
 import com.postInfo.sys.post.model.Role;
 import com.postInfo.sys.post.model.User;
-//import com.postInfo.sys.post.service.user.CustomUserDetailsService;
-import com.postInfo.sys.post.repository.RoleRepository;
 import com.postInfo.sys.post.service.role.RoleService;
 import com.postInfo.sys.post.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +18,8 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserDetailsController {
 
-    private final UserService userService;
-    private final RoleService roleService;
+    private UserService userService;
+    private RoleService roleService;
 
     @Autowired
     public UserDetailsController(UserService userService, RoleService roleService) {
