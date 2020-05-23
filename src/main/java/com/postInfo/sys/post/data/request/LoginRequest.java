@@ -1,4 +1,4 @@
-package com.postInfo.sys.post.payload.request;
+package com.postInfo.sys.post.data.request;
 
 import javax.validation.constraints.NotBlank;
 

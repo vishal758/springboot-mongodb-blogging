@@ -1,4 +1,4 @@
-package com.postInfo.sys.post.payload.response;
+package com.postInfo.sys.post.data.response;
 
 import java.util.List;
 

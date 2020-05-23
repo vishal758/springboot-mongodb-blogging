@@ -1,4 +1,4 @@
-package com.postInfo.sys.post.pojo;
+package com.postInfo.sys.post.data;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

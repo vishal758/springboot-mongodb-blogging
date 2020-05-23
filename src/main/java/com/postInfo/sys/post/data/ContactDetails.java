@@ -1,4 +1,4 @@
-package com.postInfo.sys.post.pojo;
+package com.postInfo.sys.post.data;
 
 public class ContactDetails {
     private String phoneNumber;
