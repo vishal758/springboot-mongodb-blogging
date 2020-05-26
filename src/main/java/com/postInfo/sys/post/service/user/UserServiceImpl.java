@@ -1,6 +1,7 @@
 package com.postInfo.sys.post.service.user;
 
 //import com.postInfo.sys.post.model.Post;
+import com.postInfo.sys.post.model.Profile;
 import com.postInfo.sys.post.model.Role;
 import com.postInfo.sys.post.model.User;
 import com.postInfo.sys.post.repository.UserRepository;
@@ -37,5 +38,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findUserByRoles(Role user) {
         return userRepository.findUserByRoles(user);
+    }
+
+    @Override
+    public Profile findProfileById(String id) {
+        return userRepository.findProfileById(id);
     }
 }

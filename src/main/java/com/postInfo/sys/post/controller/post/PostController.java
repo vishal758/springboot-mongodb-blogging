@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class PostController {
         post.setId(post.getId());
         post.setUserId(userId);
         post.setAuthor(user.getUsername());
-        post.setLastModifiedDate(Calendar.getInstance().getTime());
+        post.setLastModifiedDate(LocalDateTime.now());
         postService.save(post);
         return ResponseEntity.ok(new SuccessResponse(post.getId(), "Post created Successfully"));
     }
@@ -81,7 +82,7 @@ public class PostController {
         post.setId(id);
         post.setUserId(userId);
         post.setAuthor(user.getUsername());
-        post.setLastModifiedDate(Calendar.getInstance().getTime());
+        post.setLastModifiedDate(LocalDateTime.now());
         postService.save(post);
 
         return ResponseEntity.ok(new SuccessResponse(post.getId(), "Post modified Successfully"));

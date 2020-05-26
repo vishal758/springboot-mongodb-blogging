@@ -4,12 +4,15 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "profiles")
-public class Profile {
+public class SocialProfile {
 
     private String githubProfile;
     private String linkedInProfile;
 
-    public Profile(String githubProfile, String linkedInProfile) {
+    public SocialProfile() {
+    }
+
+    public SocialProfile(String githubProfile, String linkedInProfile) {
         this.githubProfile = githubProfile;
         this.linkedInProfile = linkedInProfile;
     }
