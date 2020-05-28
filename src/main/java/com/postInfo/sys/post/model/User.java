@@ -2,6 +2,7 @@ package com.postInfo.sys.post.model;
 
 //import org.bson.types.String;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,7 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Document(collection = "users")
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
     @Id
     private String id;
@@ -37,7 +38,6 @@ public class User {
     @DBRef
     private Profile profile;
 
-
     public User() {
     }
 
@@ -45,21 +45,6 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
-    }
-
-    public User(String username, String email, String password, Profile profile) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.profile = profile;
-    }
-
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
     }
 
     public String getId() {
@@ -92,6 +77,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     public Set<Role> getRoles() {

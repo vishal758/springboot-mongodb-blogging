@@ -3,6 +3,7 @@ package com.postInfo.sys.post.controller.user;
 import com.postInfo.sys.post.data.ContactDetails;
 import com.postInfo.sys.post.data.SocialProfile;
 import com.postInfo.sys.post.data.UserData;
+import com.postInfo.sys.post.data.UserProfileData;
 import com.postInfo.sys.post.data.response.MessageResponse;
 import com.postInfo.sys.post.data.response.SuccessResponse;
 import com.postInfo.sys.post.model.*;
@@ -15,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.awt.color.ProfileDataException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +50,24 @@ public class UserController {
             userData.setUsername(singleUser.getUsername());
             userData.setEmail(singleUser.getEmail());
             userData.setRole(singleUser.getRoles());
+
+            if(singleUser.getProfile() != null) {
+                Profile profile = new Profile();
+                profile.setAddress(singleUser.getProfile().getAddress());
+                profile.setPhoneNumber(singleUser.getProfile().getPhoneNumber());
+                profile.setLinkedInProfile(singleUser.getProfile().getLinkedInProfile());
+                profile.setGithubProfile(singleUser.getProfile().getGithubProfile());
+
+                UserProfileData userProfileData = new UserProfileData();
+
+                ContactDetails contactDetails = new ContactDetails(profile.getPhoneNumber(), profile.getAddress());
+                SocialProfile socialProfile = new SocialProfile(profile.getGithubProfile(), profile.getLinkedInProfile());
+                userProfileData.setContactDetails(contactDetails);
+                userProfileData.setSocialProfile(socialProfile);
+
+                userData.setUserProfileData(userProfileData);
+            }
+
             users.add(userData);
         }
         return ResponseEntity.ok(users);
@@ -66,9 +86,22 @@ public class UserController {
             userData.setEmail(user.getEmail());
             userData.setRole(user.getRoles());
 
-        if(user.getProfile() != null) {
-            userData.setProfile(user.getProfile());
-        }
+            if(user.getProfile() != null) {
+                Profile profile = new Profile();
+                profile.setAddress(user.getProfile().getAddress());
+                profile.setPhoneNumber(user.getProfile().getPhoneNumber());
+                profile.setLinkedInProfile(user.getProfile().getGithubProfile());
+                profile.setGithubProfile(user.getProfile().getGithubProfile());
+
+                UserProfileData userProfileData = new UserProfileData();
+
+                ContactDetails contactDetails = new ContactDetails(profile.getPhoneNumber(), profile.getAddress());
+                SocialProfile socialProfile = new SocialProfile(profile.getGithubProfile(), profile.getLinkedInProfile());
+                userProfileData.setContactDetails(contactDetails);
+                userProfileData.setSocialProfile(socialProfile);
+
+                userData.setUserProfileData(userProfileData);
+            }
 
         return ResponseEntity.ok(userData);
     }
@@ -81,29 +114,9 @@ public class UserController {
         if(user == null )
             return ResponseEntity.badRequest().body(new SuccessResponse(id, "No user found with given id"));
 
-        SocialProfile socialProfiles = new SocialProfile();
-        socialProfiles.setGithubProfile(profile.getSocialProfile().getGithubProfile());
-        socialProfiles.setLinkedInProfile(profile.getSocialProfile().getLinkedInProfile());
-
-        ContactDetails contactDetails = new ContactDetails();
-        contactDetails.setPhoneNumber(profile.getContactDetails().getPhoneNumber());
-        contactDetails.setAddress(profile.getContactDetails().getAddress());
-
-        Profile userProfile = new Profile();
-        profile.setContactDetails(contactDetails);
-        profile.setSocialProfile(socialProfiles);
         profileService.save(profile);
-
-        System.out.println(userProfile.getContactDetails());
-        System.out.println(userProfile.getSocialProfile());
-
-        user.setProfile(userProfile);
-        Profile userProfileData = userService.findProfileById(id);
-        System.out.println(userProfileData.getContactDetails());
-        System.out.println(userProfileData.getSocialProfile());
-//        UserData userData = new UserData();
-//        userData.
-
+        user.setProfile(profile);
+        userService.save(user);
         return ResponseEntity.ok(new SuccessResponse(id, "Profile section updated successfully for given user."));
     }
 //    @RequestMapping(value = "", method = RequestMethod.POST)

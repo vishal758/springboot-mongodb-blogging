@@ -1,27 +1,29 @@
 package com.postInfo.sys.post.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.postInfo.sys.post.model.Profile;
 import com.postInfo.sys.post.model.Role;
 
 import java.util.Set;
-@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserData {
     private String id;
     private String username;
     private String email;
     private Set<Role> role;
-    private Profile profile;
+    private UserProfileData userProfileData;
 
     public UserData() {
     }
 
-    public UserData(String id, String username, String email, Set<Role> role, Profile profile) {
+    public UserData(String id, String username, String email, Set<Role> role, UserProfileData userProfileData) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.role = role;
-        this.profile = profile;
+        this.userProfileData = userProfileData;
     }
 
     public String getId() {
@@ -56,12 +58,12 @@ public class UserData {
         this.email = email;
     }
 
-    public Profile getProfile() {
-        return profile;
+    public UserProfileData getUserProfileData() {
+        return userProfileData;
     }
 
-    public void setProfile(Profile profile) {
-        this.profile = profile;
+    public void setUserProfileData(UserProfileData userProfileData) {
+        this.userProfileData = userProfileData;
     }
 
     @Override

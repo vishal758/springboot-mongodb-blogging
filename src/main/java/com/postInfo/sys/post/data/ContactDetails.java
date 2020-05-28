@@ -1,5 +1,8 @@
 package com.postInfo.sys.post.data;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContactDetails {
     private String phoneNumber;
     private String address;

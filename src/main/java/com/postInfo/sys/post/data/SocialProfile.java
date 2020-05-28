@@ -1,9 +1,11 @@
 package com.postInfo.sys.post.data;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "profiles")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SocialProfile {
 
     private String githubProfile;

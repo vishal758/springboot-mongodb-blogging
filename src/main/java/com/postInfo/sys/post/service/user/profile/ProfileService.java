@@ -6,4 +6,10 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ProfileService{
     Profile save(Profile profile);
+
+//    Profile findProfileByUserId(String id);
+
+//    Profile findByUserId(String id);
+
+//    Profile findAll();
 }
