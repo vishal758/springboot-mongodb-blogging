@@ -1,6 +1,6 @@
 package com.postInfo.sys.post.controller.admin;
 
-import com.postInfo.sys.post.data.UserData;
+import com.postInfo.sys.post.data.response.User.UserData;
 import com.postInfo.sys.post.data.response.MessageResponse;
 import com.postInfo.sys.post.data.response.SuccessResponse;
 import com.postInfo.sys.post.model.ERole;

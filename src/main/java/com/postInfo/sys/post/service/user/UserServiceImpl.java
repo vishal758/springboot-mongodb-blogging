@@ -1,11 +1,13 @@
 package com.postInfo.sys.post.service.user;
 
-//import com.postInfo.sys.post.model.Post;
+import com.postInfo.sys.post.data.response.User.Profile.ContactDetails;
+import com.postInfo.sys.post.data.response.User.Profile.SocialProfile;
+import com.postInfo.sys.post.data.response.User.UserData;
+import com.postInfo.sys.post.data.response.User.Profile.UserProfileData;
 import com.postInfo.sys.post.model.Profile;
 import com.postInfo.sys.post.model.Role;
 import com.postInfo.sys.post.model.User;
 import com.postInfo.sys.post.repository.UserRepository;
-//import org.bson.types.String;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -43,5 +45,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public Profile findProfileById(String id) {
         return userRepository.findProfileById(id);
+    }
+
+    @Override
+    public UserData fillUserData(User user) {
+        UserData userData = new UserData();
+        userData.setId(user.getId());
+        userData.setUsername(user.getUsername());
+        userData.setEmail(user.getEmail());
+        userData.setRole(user.getRoles());
+
+        if(user.getProfile() != null) {
+            Profile profile = new Profile();
+            profile.setAddress(user.getProfile().getAddress());
+            profile.setPhoneNumber(user.getProfile().getPhoneNumber());
+            profile.setLinkedInProfile(user.getProfile().getLinkedInProfile());
+            profile.setGithubProfile(user.getProfile().getGithubProfile());
+
+            UserProfileData userProfileData = new UserProfileData();
+
+            ContactDetails contactDetails = new ContactDetails(profile.getPhoneNumber(), profile.getAddress());
+            SocialProfile socialProfile = new SocialProfile(profile.getGithubProfile(), profile.getLinkedInProfile());
+            userProfileData.setContactDetails(contactDetails);
+            userProfileData.setSocialProfile(socialProfile);
+
+            userData.setUserProfileData(userProfileData);
+        }
+        return userData;
     }
 }

@@ -1,15 +1,12 @@
 package com.postInfo.sys.post.service.user;
 
-//import com.postInfo.sys.post.model.Post;
+import com.postInfo.sys.post.data.response.User.UserData;
 import com.postInfo.sys.post.model.Profile;
 import com.postInfo.sys.post.model.Role;
 import com.postInfo.sys.post.model.User;
-//import org.bson.types.String;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface UserService{
     List<User> findAll();
 
@@ -23,4 +20,6 @@ public interface UserService{
     List<User> findUserByRoles(Role role);
 
     Profile findProfileById(String id);
+
+    UserData fillUserData(User user);
 }

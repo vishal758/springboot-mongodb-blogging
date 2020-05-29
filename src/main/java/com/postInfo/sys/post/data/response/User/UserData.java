@@ -1,8 +1,7 @@
-package com.postInfo.sys.post.data;
+package com.postInfo.sys.post.data.response.User;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.postInfo.sys.post.model.Profile;
+import com.postInfo.sys.post.data.response.User.Profile.UserProfileData;
 import com.postInfo.sys.post.model.Role;
 
 import java.util.Set;

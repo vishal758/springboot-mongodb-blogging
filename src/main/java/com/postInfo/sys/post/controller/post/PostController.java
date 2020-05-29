@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.List;
-
 
 @RestController
 @RequestMapping("users/{userId}/posts")
@@ -61,7 +59,7 @@ public class PostController {
         User user = userService.findUserById(userId);
         if(user == null)
             return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found"));
-        post.setId(post.getId());
+//        post.setId(post.getId());
         post.setUserId(userId);
         post.setAuthor(user.getUsername());
         post.setLastModifiedDate(LocalDateTime.now());

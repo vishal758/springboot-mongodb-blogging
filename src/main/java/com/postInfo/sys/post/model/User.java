@@ -1,7 +1,5 @@
 package com.postInfo.sys.post.model;
 
-//import org.bson.types.String;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;

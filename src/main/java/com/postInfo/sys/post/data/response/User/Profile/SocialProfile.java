@@ -1,7 +1,6 @@
-package com.postInfo.sys.post.data;
+package com.postInfo.sys.post.data.response.User.Profile;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "profiles")

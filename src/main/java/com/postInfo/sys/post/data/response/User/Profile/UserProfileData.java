@@ -1,4 +1,4 @@
-package com.postInfo.sys.post.data;
+package com.postInfo.sys.post.data.response.User.Profile;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
