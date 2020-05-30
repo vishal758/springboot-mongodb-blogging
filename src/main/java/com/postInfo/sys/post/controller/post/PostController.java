@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("users/{userId}/posts")
+@RequestMapping("users/{username}/posts")
 public class PostController {
     private final PostService postService;
     private final UserService userService;
@@ -28,39 +28,39 @@ public class PostController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity getAllPostsByUser(@PathVariable String userId) {
-        User user = userService.findUserById(userId);
+    public ResponseEntity getAllPostsByUser(@PathVariable String username) {
+        User user = userService.findUserByUsername(username);
         if(user == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found"));
         }
-        List<Post> posts = postService.findAllByUser(userId);
-        if(posts == null)
-            return ResponseEntity.ok(new SuccessResponse(userId, "No posts from this user"));
+        List<Post> posts = postService.findAllByUser(user.getId());
+        if(posts.size() == 0)
+            return ResponseEntity.ok(new SuccessResponse(username, "No posts from this user"));
         return ResponseEntity.ok(posts);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<?> getPostById(@PathVariable("id") String id, @PathVariable String userId) {
+    public ResponseEntity<?> getPostById(@PathVariable("id") String id, @PathVariable String username) {
         Post post = postService.findPostById(id);
-        User user = userService.findUserById(userId);
+        User user = userService.findUserByUsername(username);
         if(user == null)
             return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found"));
         else if(post == null)
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Post not found"));
-        else if(post.getUserId().compareTo(userId) != 0)
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: User not authorised to fetch this post"));
+        else if(post.getUserId().compareTo(user.getId()) != 0)
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Post is not of this user"));
+
         return ResponseEntity.ok(post);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity createPost(@Valid @RequestBody Post post, @PathVariable String userId) {
-        User user = userService.findUserById(userId);
+    public ResponseEntity createPost(@Valid @RequestBody Post post, @PathVariable String username) {
+        User user = userService.findUserByUsername(username);
         if(user == null)
             return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found"));
-//        post.setId(post.getId());
-        post.setUserId(userId);
+        post.setUserId(user.getId());
         post.setAuthor(user.getUsername());
         post.setLastModifiedDate(LocalDateTime.now());
         postService.save(post);
@@ -68,17 +68,17 @@ public class PostController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity modifyPostById(@PathVariable("id") String id, @Valid @RequestBody Post post, @PathVariable String userId) {
-        User user = userService.findUserById(userId);
+    public ResponseEntity modifyPostById(@PathVariable("id") String id, @Valid @RequestBody Post post, @PathVariable String username) {
+        User user = userService.findUserByUsername(username);
         Post origPost = postService.findPostById(id);
         if(user == null)
             return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found"));
         else if(origPost == null)
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Post not found"));
-        else if(origPost.getUserId().compareTo(userId) != 0)
+        else if(origPost.getUserId().compareTo(user.getId()) != 0)
             return ResponseEntity.badRequest().body(new MessageResponse("Error: User not authorised to modify this post"));
         post.setId(id);
-        post.setUserId(userId);
+        post.setUserId(user.getId());
         post.setAuthor(user.getUsername());
         post.setLastModifiedDate(LocalDateTime.now());
         postService.save(post);
@@ -88,14 +88,14 @@ public class PostController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity deletePost(@PathVariable String id, @PathVariable String userId) {
-        User user = userService.findUserById(userId);
+    public ResponseEntity deletePost(@PathVariable String id, @PathVariable String username) {
+        User user = userService.findUserByUsername(username);
         Post post = postService.findPostById(id);
         if(user == null)
             return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found"));
         else if(post == null)
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Post not found"));
-        else if(post.getUserId().compareTo(userId) != 0)
+        else if(post.getUserId().compareTo(user.getId()) != 0)
             return ResponseEntity.badRequest().body(new MessageResponse("Error: User not authorised to delete that post"));
         postService.delete(post);
         return ResponseEntity.ok(new SuccessResponse(post.getId(), "Post deleted Successfully"));

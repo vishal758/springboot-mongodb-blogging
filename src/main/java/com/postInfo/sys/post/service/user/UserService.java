@@ -6,6 +6,7 @@ import com.postInfo.sys.post.model.Role;
 import com.postInfo.sys.post.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService{
     List<User> findAll();
@@ -22,4 +23,6 @@ public interface UserService{
     Profile findProfileById(String id);
 
     UserData fillUserData(User user);
+
+    User findUserByUsername(String id);
 }

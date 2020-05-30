@@ -10,6 +10,7 @@ import com.postInfo.sys.post.service.user.profile.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -45,15 +46,19 @@ public class UserController {
             userData = userService.fillUserData(singleUser);
             users.add(userData);
         }
+        if(users.size() == 0) {
+            return ResponseEntity.ok(new MessageResponse("No users found"));
+        }
         return ResponseEntity.ok(users);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity getParticularUsers(@PathVariable String id) {
-        User user = userService.findUserById(id);
+    public ResponseEntity getParticularUserByUserName(@PathVariable String username) {
+        User user = userService.findUserByUsername(username);
+
         if(user == null )
-            return ResponseEntity.badRequest().body(new SuccessResponse(id, "No user found with given id"));
+            return ResponseEntity.badRequest().body(new SuccessResponse(username, "No user found with given username"));
         UserData userData;
         userData = userService.fillUserData(user);
         return ResponseEntity.ok(userData);
@@ -64,7 +69,7 @@ public class UserController {
     public ResponseEntity updateUserProfile(@PathVariable String id,  @Valid @RequestBody Profile profile) {
         User user = userService.findUserById(id);
         if(user == null )
-            return ResponseEntity.badRequest().body(new SuccessResponse(id, "No user found with given id"));
+            return ResponseEntity.badRequest().body(new SuccessResponse(id, "No user found with given username"));
 
         profileService.save(profile);
         user.setProfile(profile);
