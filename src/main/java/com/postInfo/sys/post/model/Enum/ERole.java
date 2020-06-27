@@ -1,4 +1,4 @@
-package com.postInfo.sys.post.model;
+package com.postInfo.sys.post.model.Enum;
 
 public enum ERole {
     ROLE_USER,

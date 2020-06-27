@@ -3,7 +3,7 @@ package com.postInfo.sys.post.controller.admin;
 import com.postInfo.sys.post.data.response.User.UserData;
 import com.postInfo.sys.post.data.response.MessageResponse;
 import com.postInfo.sys.post.data.response.SuccessResponse;
-import com.postInfo.sys.post.model.ERole;
+import com.postInfo.sys.post.model.Enum.ERole;
 import com.postInfo.sys.post.model.Role;
 import com.postInfo.sys.post.model.User;
 import com.postInfo.sys.post.service.role.RoleService;

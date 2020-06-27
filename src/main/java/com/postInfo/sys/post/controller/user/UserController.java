@@ -4,13 +4,13 @@ import com.postInfo.sys.post.data.response.User.UserData;
 import com.postInfo.sys.post.data.response.MessageResponse;
 import com.postInfo.sys.post.data.response.SuccessResponse;
 import com.postInfo.sys.post.model.*;
+import com.postInfo.sys.post.model.Enum.ERole;
 import com.postInfo.sys.post.service.role.RoleService;
 import com.postInfo.sys.post.service.user.UserService;
 import com.postInfo.sys.post.service.user.profile.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -38,8 +38,6 @@ public class UserController {
     public ResponseEntity getAllUsers() {
         Role userRole = roleService.findByName(ERole.ROLE_USER);
         List<User> user = userService.findUserByRoles(userRole);
-        if(user == null )
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: No users found"));
         List<UserData> users = new ArrayList<>();
         for(final User singleUser: user) {
             UserData userData;
@@ -56,7 +54,6 @@ public class UserController {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity getParticularUserByUserName(@PathVariable String username) {
         User user = userService.findUserByUsername(username);
-
         if(user == null )
             return ResponseEntity.badRequest().body(new SuccessResponse(username, "No user found with given username"));
         UserData userData;
@@ -64,17 +61,16 @@ public class UserController {
         return ResponseEntity.ok(userData);
     }
 
-    @RequestMapping(value = "/{id}/profile", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{username}/profile", method = RequestMethod.PUT)
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity updateUserProfile(@PathVariable String id,  @Valid @RequestBody Profile profile) {
-        User user = userService.findUserById(id);
+    public ResponseEntity updateUserProfile(@PathVariable String username,  @Valid @RequestBody Profile profile) {
+        User user = userService.findUserByUsername(username);
         if(user == null )
-            return ResponseEntity.badRequest().body(new SuccessResponse(id, "No user found with given username"));
-
+            return ResponseEntity.badRequest().body(new SuccessResponse(username, "No user found with given username"));
         profileService.save(profile);
         user.setProfile(profile);
         userService.save(user);
-        return ResponseEntity.ok(new SuccessResponse(id, "Profile section updated successfully for given user."));
+        return ResponseEntity.ok(new SuccessResponse(username, "Profile section updated successfully for given user."));
     }
 
 //    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)

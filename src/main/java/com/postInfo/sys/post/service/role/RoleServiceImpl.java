@@ -1,6 +1,6 @@
 package com.postInfo.sys.post.service.role;
 
-import com.postInfo.sys.post.model.ERole;
+import com.postInfo.sys.post.model.Enum.ERole;
 import com.postInfo.sys.post.model.Role;
 import com.postInfo.sys.post.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;

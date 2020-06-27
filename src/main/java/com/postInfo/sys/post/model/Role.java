@@ -1,5 +1,6 @@
 package com.postInfo.sys.post.model;
 
+import com.postInfo.sys.post.model.Enum.ERole;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
