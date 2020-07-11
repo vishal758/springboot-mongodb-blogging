@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
+//@CrossOrigin
 @RequestMapping("users/{username}/posts")
 public class PostController {
     private final PostService postService;
