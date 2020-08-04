@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-//@CrossOrigin
+@CrossOrigin
 @RequestMapping("users/{username}/posts")
 public class PostController {
     private final PostService postService;
@@ -69,6 +69,7 @@ public class PostController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity modifyPostById(@PathVariable("id") String id, @Valid @RequestBody Post post, @PathVariable String username) {
         User user = userService.findUserByUsername(username);
         Post origPost = postService.findPostById(id);

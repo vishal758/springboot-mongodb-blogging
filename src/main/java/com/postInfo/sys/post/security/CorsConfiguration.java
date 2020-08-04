@@ -14,7 +14,7 @@ public class CorsConfiguration extends org.springframework.web.cors.CorsConfigur
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**").allowedOrigins("*")
-                        .allowedHeaders("*").allowCredentials(false)
+                        .allowedHeaders("*").allowCredentials(true)
                         .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH", "OPTIONS");
             }
         };

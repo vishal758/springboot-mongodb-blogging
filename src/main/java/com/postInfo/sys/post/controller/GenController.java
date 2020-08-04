@@ -45,18 +45,18 @@ public class GenController {
         return ResponseEntity.ok(post);
     }
 
-    @RequestMapping(value = "users/{username}/posts", method = RequestMethod.POST)
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity createPost(@Valid @RequestBody Post post, @PathVariable String username) {
-        User user = userService.findUserByUsername(username);
-        if(user == null)
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found"));
-        post.setUserId(user.getId());
-        post.setAuthor(user.getUsername());
-        post.setLastModifiedDate(LocalDateTime.now());
-        postService.save(post);
-        return ResponseEntity.ok(new SuccessResponse(post.getId(), "Post created Successfully"));
-    }
+//    @RequestMapping(value = "users/{username}/posts", method = RequestMethod.POST)
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    public ResponseEntity createPost(@Valid @RequestBody Post post, @PathVariable String username) {
+//        User user = userService.findUserByUsername(username);
+//        if(user == null)
+//            return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found"));
+//        post.setUserId(user.getId());
+//        post.setAuthor(user.getUsername());
+//        post.setLastModifiedDate(LocalDateTime.now());
+//        postService.save(post);
+//        return ResponseEntity.ok(new SuccessResponse(post.getId(), "Post created Successfully"));
+//    }
 //    @DeleteMapping("/allPosts/{id}")
 //    public void deletePost(@PathVariable("id") String id) {
 ////        postService.delete(postService.findBy_id(id));
