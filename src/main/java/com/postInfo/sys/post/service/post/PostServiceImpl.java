@@ -1,5 +1,7 @@
 package com.postInfo.sys.post.service.post;
 
+import com.postInfo.sys.post.data.response.CommentData;
+import com.postInfo.sys.post.model.Comment;
 import com.postInfo.sys.post.model.Post;
 import com.postInfo.sys.post.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +44,18 @@ public class PostServiceImpl implements PostService {
     @Override
     public void delete(Post by_id) {
         postRepository.delete(by_id);
+    }
+
+    @Override
+    public List<CommentData> fillCommentData(List<Comment> comments) {
+        List<CommentData> commentData = new ArrayList<>();
+        for(Comment comment: comments) {
+            CommentData data = new CommentData();
+            data.setId(comment.getId());
+            data.setMessage(comment.getMessage());
+            data.setCommentBy(comment.getCommentBy());
+            commentData.add(data);
+        }
+        return commentData;
     }
 }

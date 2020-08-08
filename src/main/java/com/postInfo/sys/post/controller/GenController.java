@@ -28,7 +28,7 @@ public class GenController {
     }
 
     @GetMapping("/allPosts")
-    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER')")
     public ResponseEntity allPosts() {
         List<Post> posts = postService.findAllPosts();
         if(posts == null)
@@ -37,7 +37,7 @@ public class GenController {
     }
 
     @GetMapping("/allPosts/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity findPostById(@PathVariable String id) {
         Post post = postService.findPostById(id);
         if(post == null)

@@ -1,11 +1,15 @@
 package com.postInfo.sys.post.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.postInfo.sys.post.data.response.CommentData;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Document(collection = "post")
 public class Post {
@@ -22,6 +26,9 @@ public class Post {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastModifiedDate;
     private String userId;
+
+    @DBRef
+    private List<CommentData> comments = new ArrayList<>();
 
     public Post(String id, String title, String desc, String userId, String author, LocalDateTime lastModifiedDate) {
         this.id = id;
@@ -78,6 +85,14 @@ public class Post {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public List<CommentData> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentData> comments) {
+        this.comments = comments;
     }
 
     @Override

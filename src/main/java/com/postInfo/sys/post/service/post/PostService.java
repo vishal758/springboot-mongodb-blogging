@@ -1,5 +1,7 @@
 package com.postInfo.sys.post.service.post;
 
+import com.postInfo.sys.post.data.response.CommentData;
+import com.postInfo.sys.post.model.Comment;
 import com.postInfo.sys.post.model.Post;
 
 
@@ -15,4 +17,6 @@ public interface PostService {
     Post findPostById(String id);
 
     void delete(Post by_id);
+
+    List<CommentData> fillCommentData(List<Comment> comments);
 }
