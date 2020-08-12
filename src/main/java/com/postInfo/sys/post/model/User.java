@@ -8,7 +8,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Document(collection = "users")
@@ -35,6 +37,9 @@ public class User {
 
     @DBRef
     private Profile profile;
+
+    @DBRef
+    private List<Post> favPosts = new ArrayList<>();
 
     public User() {
     }
@@ -91,5 +96,13 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public List<Post> getFavPosts() {
+        return favPosts;
+    }
+
+    public void setFavPosts(List<Post> favPosts) {
+        this.favPosts = favPosts;
     }
 }

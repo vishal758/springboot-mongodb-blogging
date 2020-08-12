@@ -77,6 +77,10 @@ public class UserServiceImpl implements UserService {
 
             userData.setUserProfileData(userProfileData);
         }
+
+//        if(user.getFavPosts().size() != 0) {
+//            userData.setFavPosts(user.getFavPosts());
+//        }
         return userData;
     }
 }

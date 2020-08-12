@@ -2,8 +2,10 @@ package com.postInfo.sys.post.data.response.User;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.postInfo.sys.post.data.response.User.Profile.UserProfileData;
+import com.postInfo.sys.post.model.Post;
 import com.postInfo.sys.post.model.Role;
 
+import java.util.List;
 import java.util.Set;
 //@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -12,9 +14,19 @@ public class UserData {
     private String username;
     private String email;
     private Set<Role> role;
+//    private List<Post> favPosts;
     private UserProfileData userProfileData;
 
     public UserData() {
+    }
+
+    public UserData(String id, String username, String email, Set<Role> role, List<Post> favPosts, UserProfileData userProfileData) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.role = role;
+//        this.favPosts = favPosts;
+        this.userProfileData = userProfileData;
     }
 
     public UserData(String id, String username, String email, Set<Role> role, UserProfileData userProfileData) {
@@ -64,6 +76,14 @@ public class UserData {
     public void setUserProfileData(UserProfileData userProfileData) {
         this.userProfileData = userProfileData;
     }
+
+//    public List<Post> getFavPosts() {
+//        return favPosts;
+//    }
+//
+//    public void setFavPosts(List<Post> favPosts) {
+//        this.favPosts = favPosts;
+//    }
 
     @Override
     public String toString() {
