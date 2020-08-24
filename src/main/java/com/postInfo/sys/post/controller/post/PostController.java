@@ -3,6 +3,7 @@ import com.postInfo.sys.post.data.response.CommentData;
 import com.postInfo.sys.post.data.response.MessageResponse;
 import com.postInfo.sys.post.data.response.SuccessResponse;
 import com.postInfo.sys.post.model.Comment;
+import com.postInfo.sys.post.model.Enum.ECategory;
 import com.postInfo.sys.post.model.Post;
 import com.postInfo.sys.post.model.User;
 import com.postInfo.sys.post.service.comments.CommentService;
@@ -72,9 +73,11 @@ public class PostController {
         User user = userService.findUserByUsername(username);
         if(user == null)
             return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found"));
+//        int category = post.getCategory().getValue();
         post.setUserId(user.getId());
         post.setAuthor(user.getUsername());
         post.setLastModifiedDate(LocalDateTime.now());
+//        post.setCategory(ECategory.fromInt(category));
         postService.save(post);
         return ResponseEntity.ok(new SuccessResponse(post.getId(), "Post created Successfully"));
     }

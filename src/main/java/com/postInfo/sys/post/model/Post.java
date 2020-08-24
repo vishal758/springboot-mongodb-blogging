@@ -2,6 +2,7 @@ package com.postInfo.sys.post.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.postInfo.sys.post.data.response.CommentData;
+import com.postInfo.sys.post.model.Enum.ECategory;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -26,6 +27,8 @@ public class Post {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastModifiedDate;
     private String userId;
+
+    private String category;
 
     @DBRef
     private List<CommentData> comments = new ArrayList<>();
@@ -93,6 +96,14 @@ public class Post {
 
     public void setComments(List<CommentData> comments) {
         this.comments = comments;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(ECategory category) {
+        this.category = category.getCode();
     }
 
     @Override
