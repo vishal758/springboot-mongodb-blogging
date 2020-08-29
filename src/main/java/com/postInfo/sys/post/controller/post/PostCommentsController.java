@@ -52,14 +52,14 @@ public class PostCommentsController {
     @RequestMapping(value = "", method = RequestMethod.POST)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity submitCommentOnPost(@Valid @RequestBody Comment comment, @PathVariable String username, @PathVariable String postId) {
-        User user = userService.findUserByUsername(username);
+        User user = userService.findUserByUsername(comment.getCommentBy());
         Post post = postService.findPostById(postId);
 
         if(user == null)
             return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found"));
         else if(post == null)
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Post not found"));
-
+//        comment.setCommentBy(username);
         comment.setPostId(postId);
         commentService.save(comment);
 
@@ -77,8 +77,8 @@ public class PostCommentsController {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found"));
         else if(post == null)
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Post not found"));
-        else if(origComment.getCommentBy().compareTo(user.getId()) != 0)
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: User not authorised to modify this post"));
+//        else if(origComment.getCommentBy().compareTo(user.getId()) != 0)
+//            return ResponseEntity.badRequest().body(new MessageResponse("Error: User not authorised to modify this post"));
         else if(origComment == null)
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Comment not found"));
         comment.setId(commentId);
@@ -96,8 +96,8 @@ public class PostCommentsController {
         Comment comment = commentService.findCommentById(commentId);
         if(user == null)
             return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found"));
-        else if(comment.getCommentBy().compareTo(user.getId()) != 0)
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: User not authorised to delete that comment"));
+//        else if(comment.getCommentBy().compareTo(user.getId()) != 0)
+//            return ResponseEntity.badRequest().body(new MessageResponse("Error: User not authorised to delete that comment"));
         else if(comment == null)
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Comment not found"));
 
