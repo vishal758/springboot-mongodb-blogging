@@ -3,6 +3,7 @@ package com.postInfo.sys.post.service.post;
 import com.postInfo.sys.post.data.response.CommentData;
 import com.postInfo.sys.post.model.Comment;
 import com.postInfo.sys.post.model.Post;
+import com.postInfo.sys.post.model.User;
 import com.postInfo.sys.post.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,5 +58,16 @@ public class PostServiceImpl implements PostService {
             commentData.add(data);
         }
         return commentData;
+    }
+
+    @Override
+    public Boolean isFavPostOfUser(User user, String postId) {
+        List<Post> posts = user.getFavPosts();
+        for(Post post: posts) {
+            if(post.getId().compareTo(postId) == 0) {
+                return true;
+            }
+        }
+        return false;
     }
 }

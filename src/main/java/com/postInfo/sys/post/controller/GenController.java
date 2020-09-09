@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class GenController {
@@ -43,6 +45,16 @@ public class GenController {
         if(post == null)
             return ResponseEntity.ok(new SuccessResponse(id,"No posts found with given id"));
         return ResponseEntity.ok(post);
+    }
+
+    @RequestMapping(value = "/users/{username}/isFavPost", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity IsFavPostOfLoggedInUser(@RequestParam("postId") String postId, @PathVariable String username) {
+        User user = userService.findUserByUsername(username);
+        Boolean isFavPost = postService.isFavPostOfUser(user, postId);
+        Map<String, Object> result = new HashMap<>();
+        result.put("isFavPost", isFavPost.toString());
+        return ResponseEntity.ok(result);
     }
 
 //    @RequestMapping(value = "users/{username}/posts", method = RequestMethod.POST)
