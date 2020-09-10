@@ -53,7 +53,7 @@ public class GenController {
         User user = userService.findUserByUsername(username);
         Boolean isFavPost = postService.isFavPostOfUser(user, postId);
         Map<String, Object> result = new HashMap<>();
-        result.put("isFavPost", isFavPost.toString());
+        result.put("isFavPost", isFavPost);
         return ResponseEntity.ok(result);
     }
 
