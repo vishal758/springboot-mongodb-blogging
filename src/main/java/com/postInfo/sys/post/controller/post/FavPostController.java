@@ -37,7 +37,10 @@ public class FavPostController {
         }
 
         List<Post> posts = user.getFavPosts();
-        return ResponseEntity.ok(posts);
+        if(posts.size() > 0)
+            return ResponseEntity.ok(posts);
+
+        return ResponseEntity.ok(new MessageResponse("No Favourite posts from this user."));
     }
 
     @RequestMapping(value = "/{postId}", method = RequestMethod.POST)
