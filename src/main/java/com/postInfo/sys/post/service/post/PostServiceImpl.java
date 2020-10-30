@@ -1,5 +1,7 @@
 package com.postInfo.sys.post.service.post;
 
+import com.postInfo.sys.post.constants.Constants;
+import com.postInfo.sys.post.constants.ImageFetch;
 import com.postInfo.sys.post.data.response.CommentData;
 import com.postInfo.sys.post.model.Comment;
 import com.postInfo.sys.post.model.Post;
@@ -10,12 +12,19 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class PostServiceImpl implements PostService {
 
-    @Autowired
     private PostRepository postRepository;
+    private ImageFetch imageFetch;
+
+    @Autowired
+    public PostServiceImpl(PostRepository postRepository, ImageFetch imageFetch) {
+        this.postRepository = postRepository;
+        this.imageFetch = imageFetch;
+    }
 
     @Override
     public List<Post> findAllByUser(String userId) {
@@ -69,5 +78,10 @@ public class PostServiceImpl implements PostService {
             }
         }
         return false;
+    }
+
+    @Override
+    public String getRandomImageUrl() {
+        return imageFetch.getRandomImageUrl();
     }
 }

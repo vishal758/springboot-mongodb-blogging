@@ -1,4 +1,5 @@
 package com.postInfo.sys.post.controller.post;
+import com.postInfo.sys.post.constants.ImageFetch;
 import com.postInfo.sys.post.data.response.CommentData;
 import com.postInfo.sys.post.data.response.MessageResponse;
 import com.postInfo.sys.post.data.response.SuccessResponse;
@@ -15,10 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -77,6 +75,10 @@ public class PostController {
         post.setUserId(user.getId());
         post.setAuthor(user.getUsername());
         post.setLastModifiedDate(LocalDateTime.now());
+
+        if(post.getImageUrl() == null || post.getImageUrl().isEmpty()) {
+            post.setImageUrl(postService.getRandomImageUrl());
+        }
         postService.save(post);
         return ResponseEntity.ok(new SuccessResponse(post.getId(), "Post created Successfully"));
     }
@@ -96,6 +98,9 @@ public class PostController {
         post.setUserId(user.getId());
         post.setAuthor(user.getUsername());
         post.setLastModifiedDate(LocalDateTime.now());
+        if(post.getImageUrl() == null || post.getImageUrl().isEmpty()) {
+            post.setImageUrl(postService.getRandomImageUrl());
+        }
         postService.save(post);
 
         return ResponseEntity.ok(new SuccessResponse(post.getId(), "Post modified Successfully"));

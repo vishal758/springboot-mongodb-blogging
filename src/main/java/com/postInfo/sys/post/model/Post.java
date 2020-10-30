@@ -27,16 +27,19 @@ public class Post {
     private LocalDateTime lastModifiedDate;
     private String userId;
 
+    private String imageUrl;
+
     @DBRef
     private List<CommentData> comments = new ArrayList<>();
 
-    public Post(String id, String title, String desc, String userId, String author, LocalDateTime lastModifiedDate) {
+    public Post(String id, String title, String desc, String userId, String author, LocalDateTime lastModifiedDate, String imageUrl) {
         this.id = id;
         this.title = title;
         this.desc = desc;
         this.userId = userId;
         this.author = author;
         this.lastModifiedDate = lastModifiedDate;
+        this.imageUrl = imageUrl;
     }
 
     public String getId() {
@@ -93,6 +96,14 @@ public class Post {
 
     public void setComments(List<CommentData> comments) {
         this.comments = comments;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override

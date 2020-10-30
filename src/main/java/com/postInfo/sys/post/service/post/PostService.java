@@ -22,4 +22,6 @@ public interface PostService {
     Boolean isFavPostOfUser(User user, String id);
 
     List<CommentData> fillCommentData(List<Comment> comments);
+
+    String getRandomImageUrl();
 }
