@@ -7,7 +7,7 @@
         <packaging>war</packaging>
       </options>
     </properties>
-    <root id="archive" name="post-0.0.1-SNAPSHOT.war">
+    <root id="archive" name="bloggme.war">
       <element id="artifact" artifact-name="post:war exploded" />
     </root>
   </artifact>
