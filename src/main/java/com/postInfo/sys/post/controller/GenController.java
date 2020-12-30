@@ -33,6 +33,7 @@ public class GenController {
 //    @PreAuthorize("hasRole('USER')")
     public ResponseEntity allPosts() {
         List<Post> posts = postService.findAllPosts();
+        System.out.println("Inside fetch all Posts...");
         if(posts == null)
             return ResponseEntity.ok(new MessageResponse("Error: No posts found"));
         return ResponseEntity.ok(posts);
